@@ -2,13 +2,13 @@
  Date: 13/08/2020
  Program: Implement a stack data structure 
  with additional functionalities 
- like sorting and searching
  Author: Malick Diakite 
 */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <conio.h>
+#include <windows.h>
 
 // Top of stack
 int top = -1;
@@ -28,6 +28,8 @@ void swap(int *, int *);
 void sort(int *);
 int search(int *, int);
 void insert(int *, int);
+
+void gotoxy(short int col, short int row);
 
 int main(void)
 {
@@ -64,20 +66,32 @@ int main(void)
     {
         // clear screen function
         system("cls");
+        gotoxy(30, 8);
+        printf("Menu and the Possible Operations of the stack\n\n");
 
+        gotoxy(30, 10);
         // Possible operations of the stack
-
+        gotoxy(30, 12);
         printf("1.Push integer(s) into the Stack\n");
+        gotoxy(30, 14);
         printf("2.Pop the integer from the Stack\n");
+        gotoxy(30, 16);
         printf("3.Peek the integer from the Stack\n");
+        gotoxy(30, 18);
         printf("4.Display the integer(s) of the Stack\n");
+        gotoxy(30, 20);
         printf("5.Add integer(s) to the stack\n");
+        gotoxy(30, 22);
         printf("6.Sort the element(s) of the Stack\n");
+        gotoxy(30, 24);
         printf("7.Search an element in the Stack\n");
+        gotoxy(30, 26);
         printf("0.Exit the Program");
+        gotoxy(30, 28);
 
         // Read user choice
         printf("\nEnter your choice: ");
+
         fflush(stdin);
         choice = getche();
 
@@ -134,8 +148,6 @@ int main(void)
             exit(0);
         }
     }
-
-    free(stack);
     return 0;
 }
 
@@ -264,7 +276,6 @@ int search(int *stack, int key)
         // Get the middle
         mid = (low + upper) / 2;
 
-        printf("\nmid = %d\n", mid);
         // Return mid if it is == key
         if (*(stack + mid) == key)
             return mid;
@@ -301,4 +312,11 @@ void insert(int *stack, int n)
         //*(stack + i) = x;
         push(stack, x);
     }
+}
+
+void gotoxy(short int col, short int row)
+{
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD position = {col, row};
+    SetConsoleCursorPosition(hStdout, position);
 }
