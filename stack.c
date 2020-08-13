@@ -46,7 +46,7 @@ int main(void)
     if (size > 0)
     {
         // Allocate a block of memory of size
-        stack = (int *)malloc(size * sizeof(int));
+        stack = (int *)malloc(size * sizeof(*stack));
 
         if (stack == NULL)
         {
@@ -291,7 +291,7 @@ void insert(int *stack, int n)
     size += n;
 
     // Resize the block of memory by size bytes
-    stack = (int *)realloc(stack, size * sizeof(int));
+    stack = (int *)realloc(stack, size * sizeof(*stack));
 
     for (i = temp; i < size; i++)
     {
