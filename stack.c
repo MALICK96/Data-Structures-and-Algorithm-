@@ -134,6 +134,8 @@ int main(void)
             exit(0);
         }
     }
+
+    free(stack);
     return 0;
 }
 
