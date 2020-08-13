@@ -266,6 +266,8 @@ void sort(int *stack)
 // Search Function
 int search(int *stack, int key)
 {
+    sort(stack);
+
     int low, upper, mid;
 
     low = 0;
