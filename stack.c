@@ -2,13 +2,13 @@
  Date: 13/08/2020
  Program: Implement a stack data structure 
  with additional functionalities 
- like sorting and searching
  Author: Malick Diakite 
 */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <conio.h>
+#include <windows.h>
 
 // Top of stack
 int top = -1;
@@ -28,25 +28,35 @@ void swap(int *, int *);
 void sort(int *);
 int search(int *, int);
 void insert(int *, int);
+int length(int *);
+void gotoxy(short int col, short int row);
 
 int main(void)
 {
+    FILE *fp = fopen("record.dat", "wb");
+
+    if (fp == NULL)
+    {
+        printf("\nCannot open the file");
+        exit(1);
+    }
+
     // Declaration of ptr to the stack
     int *stack;
 
-    int elem, num, key, pos;
+    int elem, num, key, pos, len;
 
     // For user choice
     char choice;
 
-    // Prompt user for the size
+    // Prompt users for the size
     printf("Enter the size of the stack: ");
     scanf("%d", &size);
 
     if (size > 0)
     {
         // Allocate a block of memory of size
-        stack = (int *)malloc(size * sizeof(int));
+        stack = (int *)malloc(size * sizeof(*stack));
 
         if (stack == NULL)
         {
@@ -64,20 +74,34 @@ int main(void)
     {
         // clear screen function
         system("cls");
+        gotoxy(30, 6);
+        printf("Possible Operations of the stack\n\n");
 
+        gotoxy(30, 8);
         // Possible operations of the stack
-
+        gotoxy(30, 10);
         printf("1.Push integer(s) into the Stack\n");
+        gotoxy(30, 12);
         printf("2.Pop the integer from the Stack\n");
+        gotoxy(30, 14);
         printf("3.Peek the integer from the Stack\n");
+        gotoxy(30, 16);
         printf("4.Display the integer(s) of the Stack\n");
+        gotoxy(30, 18);
         printf("5.Add integer(s) to the stack\n");
-        printf("6.Sort the element(s) of the Stack\n");
-        printf("7.Search an element in the Stack\n");
+        gotoxy(30, 20);
+        printf("6.Find Length of the stack\n");
+        gotoxy(30, 22);
+        printf("7.Sort the element(s) of the Stack\n");
+        gotoxy(30, 24);
+        printf("8.Search an element in the Stack\n");
+        gotoxy(30, 26);
         printf("0.Exit the Program");
+        gotoxy(30, 28);
 
         // Read user choice
         printf("\nEnter your choice: ");
+
         fflush(stdin);
         choice = getche();
 
@@ -114,10 +138,15 @@ int main(void)
                 printf("\nCannot inserted %d element", num);
             break;
         case '6':
-            sort(stack);
+            len = length(stack);
+            printf("\nLength = %d\n", len);
             system("pause");
             break;
         case '7':
+            sort(stack);
+            system("pause");
+            break;
+        case '8':
             key = 0;
             printf("\nEnter the integer to search: ");
             scanf("%d", &key);
@@ -130,13 +159,13 @@ int main(void)
             break;
         case '0':
             free(stack);
+            fclose(fp);
             system("cls");
             exit(0);
         }
     }
 
-    free(stack);
-    return 0;
+        return 0;
 }
 
 // Check if stack is Empty
@@ -160,17 +189,14 @@ int peek(int *stack)
 // Pop Operation
 int pop(int *stack)
 {
-    int n;
     if (isEmpty())
     {
         printf("\nStack is Empty");
         exit(3);
     }
-    n = stack[top];
+    int n = stack[top];
     top--;
 
-    // Decrease size
-    //size--;
     return n;
 }
 
@@ -193,12 +219,15 @@ void push(int *stack, int elem)
     top++;
     // Insert elem into top location
     stack[top] = elem;
+
+    // message that confirmed element insert
     printf("%d Inserted into the stack\n", elem);
 }
 
 // Traverse Operation
 void traverse(int *stack)
 {
+
     if (isEmpty())
     {
         printf("\nStack is Empty\n");
@@ -208,7 +237,7 @@ void traverse(int *stack)
     printf("\nThe element of the stack\n");
 
     for (int i = 0; i <= top; i++)
-        printf("stack[%d]= %d\t", i, stack[i]);
+        printf("stack[%d]= %d\t", i, *(stack + i));
     printf("\n");
 }
 
@@ -223,7 +252,7 @@ void swap(int *x, int *y)
 // Sort function
 void sort(int *stack)
 {
-    int swapped, tmp;
+    int swapped;
 
     while (1)
     {
@@ -254,17 +283,18 @@ void sort(int *stack)
 // Search Function
 int search(int *stack, int key)
 {
+    sort(stack);
+
     int low, upper, mid;
 
     low = 0;
-    upper = size - 1;
+    upper = top;
 
     while (low <= upper)
     {
         // Get the middle
         mid = (low + upper) / 2;
 
-        printf("\nmid = %d\n", mid);
         // Return mid if it is == key
         if (*(stack + mid) == key)
             return mid;
@@ -291,14 +321,31 @@ void insert(int *stack, int n)
     size += n;
 
     // Resize the block of memory by size bytes
-    stack = (int *)realloc(stack, size * sizeof(int));
+    stack = (int *)realloc(stack, size * sizeof(*stack));
 
     for (i = temp; i < size; i++)
     {
         printf("Enter integer %d to insert : ", c++);
         scanf("%d", &x);
 
-        //*(stack + i) = x;
         push(stack, x);
     }
+}
+
+int length(int *stack)
+{
+    int count = 0;
+    for (int i = 0; i <= top; i++)
+    {
+        count++;
+    }
+
+    return count;
+}
+
+void gotoxy(short int col, short int row)
+{
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD position = {col, row};
+    SetConsoleCursorPosition(hStdout, position);
 }
