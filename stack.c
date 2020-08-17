@@ -160,6 +160,8 @@ int main(void)
             system("pause");
             break;
         case '0':
+            // Write the stack data into the file fps
+            fwrite(stack, sizeof(int), top, fp);
             free(stack);
             fclose(fp);
             system("cls");
@@ -334,9 +336,7 @@ void insert(int *stack, int n)
     }
 }
 
-<<<<<<< HEAD
-== == == =
-             int length(int *stack)
+int length(int *stack)
 {
     int count = 0;
     for (int i = 0; i <= top; i++)
@@ -347,7 +347,6 @@ void insert(int *stack, int n)
     return count;
 }
 
->>>>>>> temp
 void gotoxy(short int col, short int row)
 {
     HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
