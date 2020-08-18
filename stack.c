@@ -200,10 +200,7 @@ int pop(int *stack)
         printf("\nStack is Empty");
         exit(3);
     }
-    int n = stack[top];
-    top--;
-
-    return n;
+    return stack[top--];
 }
 
 // Check if stack is Full

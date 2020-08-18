@@ -7,6 +7,7 @@
 
 int main()
 {
+    // Open the record.bin file for reading
     FILE *fp = fopen("record.bin", "rb");
 
     if (fp == 0)
@@ -15,10 +16,8 @@ int main()
         exit(1);
     }
 
-    long size = ftell(fp);
-    printf("size = %ld\n", size);
-
     // Find  out the number of record in the file
+    long size = ftell(fp);
     fseek(fp, 0L, 2);
     size = ftell(fp);
     int n = size / sizeof(int);
