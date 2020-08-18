@@ -46,7 +46,7 @@ int main(void)
     // Declaration of ptr to the stack
     int *stack;
 
-    int elem, num, key, pos, len;
+    int elem, num, key, pos, len, val;
 
     // For user choice
     char choice;
@@ -119,11 +119,19 @@ int main(void)
             }
             break;
         case '2':
-            printf("\nPopped integer = %d\n", pop(stack));
+            val = pop(stack);
+            if (val)
+                printf("\nPopped integer = %d\n", ret);
+            else
+                printf("\nStack underflow");
             system("pause");
             break;
         case '3':
-            printf("\nPeeked integer = %d\n", peek(stack));
+            val = peek(stack);
+            if (val)
+                printf("\nPeeked integer = %d\n", val);
+            else
+                printf("\nStack underflow");
             system("pause");
             break;
         case '4':
@@ -184,11 +192,7 @@ int isEmpty()
 int peek(int *stack)
 {
     if (isEmpty())
-    {
-        printf("\nStack is Empty");
-        exit(4);
-    }
-
+        return 0;
     return stack[top];
 }
 
@@ -196,10 +200,7 @@ int peek(int *stack)
 int pop(int *stack)
 {
     if (isEmpty())
-    {
-        printf("\nStack is Empty");
-        exit(3);
-    }
+        return 0;
     return stack[top--];
 }
 
@@ -215,8 +216,8 @@ void push(int *stack, int elem)
     // Check if stack is full
     if (isFull())
     {
-        printf("\nStack is Full\n");
-        exit(2);
+        printf("\nStack overflow\n");
+        exit(1);
     }
     // Increase the top by 1
     top++;
