@@ -121,17 +121,17 @@ int main(void)
         case '2':
             val = pop(stack);
             if (val)
-                printf("\nPopped integer = %d\n", ret);
+                printf("\nPopped item = %d\n", val);
             else
-                printf("\nStack underflow");
+                printf("\nStack Underflow");
             system("pause");
             break;
         case '3':
             val = peek(stack);
             if (val)
-                printf("\nPeeked integer = %d\n", val);
+                printf("\nPeeked item = %d\n", val);
             else
-                printf("\nStack underflow");
+                printf("\nStack Underflow");
             system("pause");
             break;
         case '4':
@@ -216,7 +216,7 @@ void push(int *stack, int elem)
     // Check if stack is full
     if (isFull())
     {
-        printf("\nStack overflow\n");
+        printf("\nStack Overflow\n");
         exit(1);
     }
     // Increase the top by 1
