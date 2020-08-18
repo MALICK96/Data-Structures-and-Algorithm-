@@ -35,7 +35,7 @@ void gotoxy(short int col, short int row);
 
 int main(void)
 {
-    FILE *fp = fopen("record.dat", "wb");
+    FILE *fp = fopen("record.bin", "wb");
 
     if (fp == NULL)
     {
@@ -58,7 +58,7 @@ int main(void)
     if (size > 0)
     {
         // Allocate a block of memory of size
-        stack = (int *)malloc(size * sizeof(*stack));
+        stack = (int *)calloc(size, sizeof(*stack));
 
         if (stack == NULL)
         {
@@ -161,11 +161,13 @@ int main(void)
             break;
         case '0':
             // Write the stack data into the file fps
-            fwrite(stack, sizeof(int), top, fp);
+            fwrite(stack, sizeof(int), top + 1, fp);
             free(stack);
             fclose(fp);
             system("cls");
             exit(0);
+        default:
+            printf("Invalid input\n\n");
         }
     }
 
