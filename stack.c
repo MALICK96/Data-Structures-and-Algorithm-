@@ -209,7 +209,7 @@ int pop(int *stack)
 // Check if stack is Full
 int isFull()
 {
-    return top == size;
+    return top == size - 1;
 }
 
 // Push elem to the stack
@@ -227,7 +227,7 @@ void push(int *stack, int elem)
     stack[top] = elem;
 
     // message that confirmed element insert
-    printf("%d Inserted into the stack\n", elem);
+    printf("%d pushed into the stack\n", elem);
 }
 
 // Traverse Operation
