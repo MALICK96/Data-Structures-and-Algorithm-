@@ -123,7 +123,7 @@ int main(void)
             if (val)
                 printf("\nPopped item = %d\n", val);
             else
-                printf("\nStack Underflow");
+                printf("\nStack Underflow\n");
             system("pause");
             break;
         case '3':
@@ -131,7 +131,7 @@ int main(void)
             if (val)
                 printf("\nPeeked item = %d\n", val);
             else
-                printf("\nStack Underflow");
+                printf("\nStack Underflow\n");
             system("pause");
             break;
         case '4':
