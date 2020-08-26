@@ -6,296 +6,126 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
-#include <conio.h>
+#include <Windows.h>
 
 typedef struct node
 {
     int data;
     struct node *link;
 } node;
+
 node *root = NULL;
 int len;
-node *createLinkedList(int n);
-void display();
-void addAtBeguin();
+
+void append();
+void addAtStart();
 void addAtEnd();
-void addAtafter();
+void addAtAfter();
+void deleteNode();
 int length();
-void delete ();
-void swap(node *a, node *b);
-// void interchange(node *x, node *y);
-void sortLinkedList();
+void display();
+void search();
+void sortList();
+void swap(node *, node *);
 
 void gotoxy(short int col, short int row);
 
-int main()
+int main(void)
 {
+
     char choice;
-    int n;
+
     while (1)
     {
         system("cls");
-        // Menu of the Program
+
         gotoxy(30, 8);
-        printf("1.Create Node List\n");
+        printf("1.Append a node\n");
         gotoxy(30, 10);
-        printf("2.Insert Node at the start of the List\n");
+        printf("2.Insert node at Start\n");
         gotoxy(30, 12);
-        printf("3.Insert Node at the end of the List\n");
+        printf("3.Insert node at End\n");
         gotoxy(30, 14);
-        printf("4.Find Length of the Node(s) List\n");
+        printf("4.Insert a node after a specified node\n");
         gotoxy(30, 16);
-        printf("5.Display the node(s) in the List\n");
+        printf("5.Delete a node at specified location\n");
         gotoxy(30, 18);
-        printf("6. Delete a node at specied location\n");
+        printf("6.Display node\n");
         gotoxy(30, 20);
-        printf("7.Add the node after a specified node\n");
+        printf("7.Find length\n");
         gotoxy(30, 22);
-        printf("8.Sort The Node List\n");
+        printf("8.Search for a node\n");
         gotoxy(30, 24);
-        printf("0.Exit the program");
+        printf("9.Sort the linked list\n");
         gotoxy(30, 26);
+        printf("0.Exit\n");
+        gotoxy(30, 28);
 
-        // Read user choice
-        printf("What's your choice: ");
-        fflush(stdin);
-        choice = getche();
+        printf("Enter your choice: ");
+        choice = getchar();
 
-        // Trigger the approce call code based on the choice value
         switch (choice)
         {
         case '1':
-            printf("\nEnter number of node to create: ");
-            scanf("%d", &n);
-            root = createLinkedList(n);
-            break;
-
-        case '2':
-            addAtBeguin();
+            append();
             system("pause");
             break;
-
+        case '2':
+            addAtStart();
+            system("pause");
+            break;
         case '3':
             addAtEnd();
             system("pause");
             break;
         case '4':
+            addAtAfter();
+            system("pause");
+            break;
+        case '5':
+            deleteNode();
+            system("pause");
+            break;
+        case '6':
+            display();
+            system("pause");
+            break;
+        case '7':
             len = length();
             printf("\nLength of the Linked list = %d\n", len);
             system("pause");
             break;
-        case '5':
-            display();
-            system("pause");
-            break;
-        case '6':
-            delete ();
-            system("pause");
-            break;
-        case '7':
-            addAtafter();
-            system("pause");
-            break;
         case '8':
-            sortLinkedList();
+            search();
+            system("pause");
+            break;
+        case '9':
+            sortList();
             system("pause");
             break;
         case '0':
             system("cls");
             exit(0);
+        default:
+            printf("\nInvalid choice!");
         }
     }
+
     return 0;
 }
 
-// Fuction to inset a node at the start of the linked list
-void addAtBeguin()
+void append()
 {
-    node *temp = (node *)malloc(sizeof(node));
-    if (temp == NULL)
-    {
-        printf("\nOut of memory error");
-        exit(2);
-    }
-    printf("\nEnter the node to add: ");
-    scanf("%d", &temp->data);
-    temp->link = NULL;
-
-    if (root == NULL)
-        root = temp;
-    else
-    {
-        temp->link = root; // right connection
-        root = temp;       // left connection
-    }
-
-    printf("\nInsertion successfull\n");
-}
-
-// Fuction to insert node at end
-void addAtEnd()
-{
-    node *temp = (node *)malloc(sizeof(node));
-    if (temp == NULL)
-    {
-        printf("\nOut of memory error");
-        exit(3);
-    }
-
-    printf("\nEnter node to insert: ");
-    scanf("%d", &temp->data);
-    temp->link = NULL;
-
-    if (root == NULL)
-        root = temp;
-    else
-    {
-        node *p;
-        p = root;
-
-        while (p->link != NULL)
-        {
-            p = p->link;
-        }
-        p->link = temp;
-    }
-}
-
-// Fuction to find the length of the list
-int length()
-{
-    int count = 0;
-    node *temp = root;
-
-    while (temp != NULL)
-    {
-        count++;
-        temp = temp->link;
-    }
-
-    return count;
-}
-
-// Add node at a particular location
-void addAtafter()
-{
+    int n;
     node *temp, *p;
-    int loc, len;
 
-    // count num of node
-    int i = 1;
-
-    len = length();
-    printf("\nEnter location: ");
-    scanf("%d", &loc);
-
-    if (loc > len)
-    {
-        printf("\nInvalid location\n");
-        printf("Currently there are %d nodes in the list\n", len);
-    }
-    else
-    {
-        p = root;
-
-        while (i < loc)
-        {
-            p = p->link;
-            i++;
-        }
-        // Creation the node to insert
-        temp = (void *)malloc(sizeof(node));
-        printf("Enter the node: ");
-        scanf("%d", &temp->data);
-        temp->link = NULL;
-
-        temp->link = p->link; // right connection
-        p->link = temp;       // right side connection
-        printf("\nnode added successfully\n ");
-    }
-}
-
-// Delete a node at specific location
-void delete ()
-{
-    node *temp;
-    int loc, len;
-
-    printf("\nEnter location to delete: ");
-    scanf("%d", &loc);
-
-    len = length();
-    if (loc > len)
-    {
-        printf("\nInvalid input list is having %d node(s)\n", len);
-        exit(1);
-    }
-    else if (loc == 1)
-    {
-        temp = root;
-        root = temp->link; // Point the next node
-        temp->link = NULL; // set the link part of temp to NULL
-
-        free(temp); // Vacate memory
-    }
-    else
-    {
-        node *q;
-        temp = root;
-
-        //count number of node
-        int count = 1;
-
-        while (count < loc - 1)
-        {
-            temp = temp->link;
-            count++;
-        }
-        q = temp->link;
-        temp->link = q->link;
-        q->link = NULL;
-
-        free(q);
-    }
-    printf("\nNode deleted sucessfully\n");
-}
-// Fuction to display the linked list
-void display()
-{
-    node *temp = root;
-
-    printf("\nThe node(s) of the linked list\n");
-
-    if (temp == NULL)
-        printf("No node in the list\n");
-    else
-
-        while (temp != NULL)
-        {
-            printf("%d ->", temp->data);
-            temp = temp->link;
-        }
-    printf("NULL\n\n");
-}
-
-// Fuction append node(s) to linked list
-node *createLinkedList(int n)
-{
-    node *root = NULL;
-    node *temp = NULL;
-    node *p = NULL;
+    printf("\nEnter number of node to Insert: ");
+    scanf("%d", &n);
 
     for (int i = 0; i < n; i++)
     {
-        temp = (void *)malloc(sizeof(node));
-
-        if (temp == NULL)
-        {
-            printf("\nOut of memory error");
-            exit(0);
-        }
-        printf("Enter node{%d}: ", i);
+        temp = (node *)malloc(sizeof(node));
+        printf("Enter node{%d}: ", i + 1);
         scanf("%d", &temp->data);
         temp->link = NULL;
 
@@ -306,31 +136,202 @@ node *createLinkedList(int n)
             p = root;
 
             while (p->link != NULL)
-            {
                 p = p->link;
-            }
             p->link = temp;
         }
     }
-
-    return root;
+    printf("\n%d items Appended successfull\n", n);
 }
 
-/* function to swap data of two nodes a and b*/
-void swap(node *a, node *b)
+void addAtStart()
 {
-    int temp = a->data;
-    a->data = b->data;
-    b->data = temp;
+    node *temp = (node *)malloc(sizeof(node));
+
+    printf("\nEnter node to add: ");
+    scanf("%d", &temp->data);
+    temp->link = NULL;
+
+    if (root == NULL)
+        root = temp;
+    else
+    {
+        temp->link = root;
+        root = temp;
+    }
+    printf("\nInsertion successfull\n");
 }
 
-// Fuction to sort the linked list
-void sortLinkedList()
+void addAtEnd()
 {
+    int n;
+    node *temp, *p;
 
-    node *ptr;
-    node *lptr = NULL;
-    int swapped = 0;
+    printf("Enter number of node(s) to add:  ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++)
+    {
+        temp = (node *)malloc(sizeof(node));
+        printf("Enter node {%d}: ", i + 1);
+        scanf("%d", &temp->data);
+        temp->link = NULL;
+
+        if (root == NULL)
+            root = temp;
+        else
+        {
+            p = root;
+
+            while (p->link != NULL)
+                p = p->link;
+            p->link = temp;
+        }
+    }
+}
+
+int length()
+{
+    int c = 0;
+    node *temp = root;
+
+    while (temp != NULL)
+    {
+        c++;
+        temp = temp->link;
+    }
+
+    return c;
+}
+
+void addAtAfter()
+{
+    node *temp, *p;
+    int loc, i = 1;
+
+    len = length();
+
+    printf("Enter location to insert: ");
+    scanf("%d", &loc);
+
+    if (loc > len)
+    {
+        printf("\nInvalid input! currently list is having %d node(s\n", len);
+    }
+    else
+    {
+        // Move to location
+        p = root;
+
+        while (i < loc)
+        {
+            i++;
+            p = p->link;
+        }
+        temp = (node *)malloc(sizeof(node));
+        printf("\nEnter node to insert: ");
+        scanf("%d", &temp->data);
+        temp->link = NULL;
+
+        temp->link = p->link;
+        p->link = temp;
+    }
+    printf("\nNode insertion successfull\n");
+}
+
+void deleteNode()
+{
+    node *temp;
+    int loc;
+
+    len = length();
+
+    printf("Enter location to insert: ");
+    scanf("%d", &loc);
+
+    if (loc > len)
+        printf("\nInvalid input! currently list is having %d node(s\n", len);
+    else if (loc == 1)
+    {
+        temp = root;
+        root = temp->link;
+        temp->link = NULL;
+
+        free(temp);
+    }
+    else
+    {
+        node *q;
+        int i = 1;
+
+        temp = root;
+
+        while (i < (loc - 1))
+        {
+            i++;
+            temp = temp->link;
+        }
+        q = temp->link;
+        temp->link = q->link;
+        q->link = NULL;
+
+        free(q);
+    }
+    printf("\nNode deleted sucessfully\n");
+}
+
+void display()
+{
+    node *temp = root;
+
+    while (temp != NULL)
+    {
+        printf("%d->", temp->data);
+        temp = temp->link;
+    }
+    printf("NULL\n");
+}
+
+void search()
+{
+    int n, flag = 0, i = 1;
+    node *temp = root;
+
+    printf("Enter node to search: ");
+    scanf("%d", &n);
+
+    len = length();
+
+    while (i <= len)
+    {
+
+        if (temp->data == n)
+        {
+            printf("\n%d found at location %d\n", n, i);
+            flag = 1;
+            break;
+        }
+        i++;
+        temp = temp->link;
+    }
+
+    if (!flag)
+        printf("\n%d not found at any location\n", n);
+}
+
+void swap(node *x, node *y)
+{
+    int temp = x->data;
+    x->data = y->data;
+    y->data = temp;
+}
+
+void sortList()
+{
+    node *ptr, *lptr;
+
+    lptr = NULL;
+
+    int swapped;
 
     if (root == NULL)
         return;
@@ -338,19 +339,18 @@ void sortLinkedList()
     while (1)
     {
         swapped = 0;
+
         ptr = root;
 
         while (ptr->link != lptr)
         {
             if (ptr->data > ptr->link->data)
             {
-                // swap the 2 node
                 swap(ptr, ptr->link);
                 swapped = 1;
             }
             ptr = ptr->link;
         }
-        lptr = ptr;
 
         if (!swapped)
             break;
